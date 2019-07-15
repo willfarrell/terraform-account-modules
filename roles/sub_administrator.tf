@@ -2,7 +2,7 @@ resource "aws_iam_role" "administrator" {
   count = var.type != "master" ? 1 : 0
   name = "admin"
 
-  assume_role_policy = <<EOF
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -15,7 +15,7 @@ resource "aws_iam_role" "administrator" {
     }
   ]
 }
-EOF
+POLICY
 
 }
 

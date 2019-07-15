@@ -1,6 +1,6 @@
 # This allow a ecs in a sub account to read from ECR
 resource "aws_iam_role" "ecr" {
-  count = var.type == "master" ? length(keys(local.sub_accounts)) : 0
+  count = var.enable_ecr && var.type == "master" ? length(keys(local.sub_accounts)) : 0
   name  = "${element(keys(local.sub_accounts),count.index)}-ecr-role"
 
   assume_role_policy = <<POLICY
@@ -20,7 +20,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "ecr" {
-  count      = var.type == "master" ? length(keys(local.sub_accounts)) : 0
+  count      = var.enable_ecr && var.type == "master" ? length(keys(local.sub_accounts)) : 0
   role       = aws_iam_role.bastion.*.name[count.index]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }

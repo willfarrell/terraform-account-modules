@@ -13,7 +13,7 @@ resource "aws_cloudtrail" "cloudtrail" {
     local.tags,
     {
       "Name" = "${local.name}-cloudtrail"
-    },
+    }
   )
 }
 

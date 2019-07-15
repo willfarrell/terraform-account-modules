@@ -17,3 +17,13 @@ variable "sub_accounts" {
     development = ""
   }
 }
+
+variable "enable_bastion" {
+  type = bool
+  default = false
+}
+
+variable "enable_ecr" {
+  type = bool
+  default = false
+}
