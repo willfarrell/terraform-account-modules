@@ -30,3 +30,7 @@ module "cloudtrail" {
   }
 }
 ```
+
+
+## Ref
+Inspired by https://github.com/QuiNovas/terraform-aws-cloudtrail

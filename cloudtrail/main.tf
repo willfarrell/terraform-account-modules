@@ -8,12 +8,13 @@ resource "aws_cloudtrail" "cloudtrail" {
   //kms_key_id                    = "${aws_kms_key.cloudtrail.arn}"
   name           = local.name
   s3_bucket_name = local.logging_bucket
+  sns_topic_name = aws_sns_topic.cloudtrail.name
 
   tags = merge(
-    local.tags,
-    {
-      "Name" = "${local.name}-cloudtrail"
-    }
+  local.tags,
+  {
+    "Name" = local.name
+  }
   )
 }
 
