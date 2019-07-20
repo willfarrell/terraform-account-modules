@@ -1,6 +1,6 @@
 resource "aws_iam_role" "developer" {
   count = var.type != "master" ? 1 : 0
-  name = "developer"
+  name  = "developer"
 
   assume_role_policy = <<EOF
 {

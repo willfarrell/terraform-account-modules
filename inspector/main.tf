@@ -5,7 +5,7 @@ resource "aws_inspector_resource_group" "main" {
 }
 
 resource "aws_inspector_assessment_target" "main" {
-  name = "${local.name}-assessment"
+  name               = "${local.name}-assessment"
   resource_group_arn = "${aws_inspector_resource_group.main.arn}"
 }
 

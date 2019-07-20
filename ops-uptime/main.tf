@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "main" {
-  name     = "${local.name}-alarm"
+  name = "${local.name}-alarm"
 
   provisioner "local-exec" {
     command = "aws sns subscribe --profile ${local.profile} --topic-arn ${self.arn} --region ${local.region} --protocol email --notification-endpoint ${var.sns_subscribe_primary}"

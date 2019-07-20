@@ -12,7 +12,7 @@ resource "aws_guardduty_member" "main" {
 }
 
 resource "aws_guardduty_invite_accepter" "main" {
-  count              = var.type != "master" ? 1 : 0
+  count      = var.type != "master" ? 1 : 0
   depends_on = ["aws_guardduty_member.main"]
 
   detector_id       = aws_guardduty_detector.main.id

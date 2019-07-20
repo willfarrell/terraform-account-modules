@@ -3,7 +3,7 @@ variable "type" {
 }
 
 variable "master_account_id" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -19,11 +19,11 @@ variable "sub_accounts" {
 }
 
 variable "enable_bastion" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "enable_ecr" {
-  type = bool
+  type    = bool
   default = false
 }

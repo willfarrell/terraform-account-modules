@@ -5,7 +5,7 @@ resource "aws_iam_group" "organization" {
   name = "OrganizationAccountAccessGroup"
 }
 resource "aws_iam_policy" "organization" {
-  name  = "OrganizationAccountAccessPolicy"
+  name   = "OrganizationAccountAccessPolicy"
   policy = data.aws_iam_policy_document.organization.json
 }
 
@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "organization" {
     actions = [
       "sts:AssumeRole"
     ]
-    resources = split(",","arn:aws:iam::${join(":role/OrganizationAccountAccessRole,arn:aws:iam::",values(var.sub_accounts))}:role/OrganizationAccountAccessRole")
+    resources = split(",", "arn:aws:iam::${join(":role/OrganizationAccountAccessRole,arn:aws:iam::", values(var.sub_accounts))}:role/OrganizationAccountAccessRole")
     /*condition {
       test     = "Bool"
       values   = [local.role_mfa]
@@ -25,6 +25,6 @@ data "aws_iam_policy_document" "organization" {
 }
 
 resource "aws_iam_group_policy_attachment" "organization" {
-  group = aws_iam_group.organization.name
+  group      = aws_iam_group.organization.name
   policy_arn = aws_iam_policy.organization.arn
 }

@@ -1,5 +1,5 @@
 variable "type" {
-  type = string
+  type    = string
   default = "master"
 }
 

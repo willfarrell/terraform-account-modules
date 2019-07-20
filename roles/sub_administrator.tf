@@ -1,6 +1,6 @@
 resource "aws_iam_role" "administrator" {
   count = var.type != "master" ? 1 : 0
-  name = "admin"
+  name  = "admin"
 
   assume_role_policy = <<POLICY
 {
