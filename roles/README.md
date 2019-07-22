@@ -35,7 +35,7 @@ data "terraform_remote_state" "master" {
 module "roles" {
   source       = "git@github.com:willfarrell/terraform-account-modules//roles?ref=v0.1.4"
   type         = "environment"
-  master_account_id = data.terraform_remote_state.master.id 
+  master_account_id = data.terraform_remote_state.master.outputs.id 
 }
 ```
 
