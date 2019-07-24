@@ -1,19 +1,14 @@
-resource "aws_iam_service_linked_role" "main" {
-  aws_service_name = "es.amazonaws.com"
-}
-
 data "aws_iam_policy_document" "main" {
   statement {
     actions = [
       "logs:CreateLogStream",
       "logs:PutLogEvents",
-      "logs:PutLogEventsBatch",
     ]
 
-    resources = ["arn:aws:logs:*"]
+    resources = ["arn:aws:logs:*:*:log-group:/aws/route53/*"]
 
     principals {
-      identifiers = ["es.amazonaws.com"]
+      identifiers = ["route53.amazonaws.com"]
       type        = "Service"
     }
   }
@@ -21,6 +16,5 @@ data "aws_iam_policy_document" "main" {
 
 resource "aws_cloudwatch_log_resource_policy" "main" {
   policy_document = data.aws_iam_policy_document.main.json
-  policy_name     = "elasticsearch-log-publishing-policy"
+  policy_name     = "route53-query-logging-policy"
 }
-

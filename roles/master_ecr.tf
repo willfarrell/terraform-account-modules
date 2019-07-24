@@ -21,6 +21,6 @@ POLICY
 
 resource "aws_iam_role_policy_attachment" "ecr" {
   count = var.enable_ecr && var.type == "master" ? length(keys(local.sub_accounts)) : 0
-  role = aws_iam_role.bastion.*.name[count.index]
+  role = aws_iam_role.ecr.*.name[count.index]
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }

@@ -4,9 +4,9 @@ resource "aws_api_gateway_account" "main" {
 }
 
 resource "aws_iam_role" "main" {
-  name = "api-gateway-logs-role"
+  name = "apigateway-logs-role"
 
-  assume_role_policy = <<EOF
+  assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -20,7 +20,7 @@ resource "aws_iam_role" "main" {
     }
   ]
 }
-EOF
+POLICY
 
 }
 
