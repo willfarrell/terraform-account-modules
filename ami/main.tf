@@ -19,7 +19,8 @@ data "aws_ami" "main" {
   }
 
   owners = [
-  "self"]
+    "self",
+  ]
 }
 
 resource "aws_ami_launch_permission" "main" {
