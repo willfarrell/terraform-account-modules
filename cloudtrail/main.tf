@@ -13,7 +13,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   tags = merge(
     local.tags,
     {
-      "Name" = local.name
+      Name = local.name
     }
   )
 }

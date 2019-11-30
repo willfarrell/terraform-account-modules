@@ -16,11 +16,11 @@ data "aws_iam_policy_document" "organization" {
       "sts:AssumeRole"
     ]
     resources = split(",", "arn:aws:iam::${join(":role/OrganizationAccountAccessRole,arn:aws:iam::", values(var.sub_accounts))}:role/OrganizationAccountAccessRole")
-    /*condition {
+    condition {
       test     = "Bool"
-      values   = [local.role_mfa]
+      values   = true
       variable = "aws:MultiFactorAuthPresent"
-    }*/
+    }
   }
 }
 

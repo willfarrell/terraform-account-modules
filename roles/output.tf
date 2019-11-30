@@ -6,3 +6,7 @@ output "bastion_arns" {
   value = aws_iam_role.bastion.*.arn
 }
 
+output "ecr_arns" {
+  value = aws_iam_role.ecr.*.arn
+}
+
