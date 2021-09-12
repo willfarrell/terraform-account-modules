@@ -13,7 +13,7 @@ resource "aws_guardduty_member" "main" {
 
 resource "aws_guardduty_invite_accepter" "main" {
   count      = var.type != "master" ? 1 : 0
-  depends_on = ["aws_guardduty_member.main"]
+  depends_on = [aws_guardduty_member.main]
 
   detector_id       = aws_guardduty_detector.main.id
   master_account_id = var.master_id
@@ -22,4 +22,6 @@ resource "aws_guardduty_invite_accepter" "main" {
 # aws_guardduty_ipset
 # aws_guardduty_threatintelset
 
-# TODO dashboard
+/*resource "aws_securityhub_product_subscription" "guardduty" {
+  product_arn = "arn:aws:securityhub:${local.region}::product/aws/guardduty"
+}*/

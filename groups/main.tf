@@ -72,6 +72,12 @@ resource "aws_iam_group_policy_attachment" "admin" {
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
+resource "aws_iam_group_policy_attachment" "support" {
+  group       = aws_iam_group.admin.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSSupportAccess"
+}
+
+
 ## Billing - https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-permissions-ref.html
 resource "aws_iam_group" "billing" {
   name = "MasterBilling"
@@ -94,10 +100,17 @@ resource "aws_iam_policy" "user" {
 {
     "Version": "2012-10-17",
     "Statement": [
-        {
+      {
+          "Sid": "AllowPasswordPolicy",
+          "Effect": "Allow",
+          "Action": "iam:GetAccountPasswordPolicy",
+          "Resource": ["*"]
+      },
+      {
             "Sid": "AllowUsersAllActionsForCredentials",
             "Effect": "Allow",
             "Action": [
+                "iam:ChangePassword",
                 "iam:ListAttachedUserPolicies",
                 "iam:GenerateServiceLastAccessedDetails",
                 "iam:*LoginProfile",

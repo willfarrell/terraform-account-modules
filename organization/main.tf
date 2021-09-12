@@ -49,7 +49,7 @@ resource "aws_organizations_account" "environment" {
   parent_id = aws_organizations_organizational_unit.environments.id
 
   lifecycle {
-    ignore_changes = ["iam_user_access_to_billing", "role_name"] # https://www.terraform.io/docs/providers/aws/r/organizations_account.html#import
+    ignore_changes = [iam_user_access_to_billing, role_name] # https://www.terraform.io/docs/providers/aws/r/organizations_account.html#import
   }
 
   /*tags = merge(

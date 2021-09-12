@@ -1,17 +1,17 @@
 resource "aws_inspector_resource_group" "main" {
   tags {
-    Name = "${var.tag}"
+    Name = var.tag
   }
 }
 
 resource "aws_inspector_assessment_target" "main" {
   name               = "${local.name}-assessment"
-  resource_group_arn = "${aws_inspector_resource_group.main.arn}"
+  resource_group_arn = aws_inspector_resource_group.main.arn
 }
 
 resource "aws_inspector_assessment_template" "main" {
-  name       = "${local.name}"
-  target_arn = "${aws_inspector_assessment_target.main.arn}"
+  name       = local.name
+  target_arn = aws_inspector_assessment_target.main.arn
   duration   = 3600
 
   # https://docs.aws.amazon.com/inspector/latest/userguide/inspector_rule-packages.html
@@ -22,3 +22,7 @@ resource "aws_inspector_assessment_template" "main" {
     "arn:aws:inspector:us-east-1:316112463485:rulespackage/0-gBONHN9h",
   ]
 }
+
+/*resource "aws_securityhub_product_subscription" "inspector" {
+  product_arn = "arn:aws:securityhub:${local.region}::product/aws/inspector"
+}*/

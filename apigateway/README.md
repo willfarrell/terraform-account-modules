@@ -11,10 +11,10 @@ provider "aws" {
   alias   = "edge"
 }
 
-module "api-gateway" {
-  source = "git@github.com:willfarrell/terraform-sub-account-modules//api-gateway?ref=v0.0.1"
+module "apigateway-logs" {
+  source = "git@github.com:willfarrell/terraform-account-modules//api-gateway?ref=v0.0.1"
   providers = {
-    aws = "aws.edge"
+    aws = aws.edge
   }
 }
 ```

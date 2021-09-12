@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "organization" {
     resources = split(",", "arn:aws:iam::${join(":role/OrganizationAccountAccessRole,arn:aws:iam::", values(var.sub_accounts))}:role/OrganizationAccountAccessRole")
     condition {
       test     = "Bool"
-      values   = true
+      values   = ["true"]
       variable = "aws:MultiFactorAuthPresent"
     }
   }

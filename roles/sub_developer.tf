@@ -33,3 +33,58 @@ resource "aws_iam_role_policy_attachment" "developer" {
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
 }
 
+resource "aws_iam_policy" "developer_rds" {
+  count = var.type != "master" ? 1 : 0
+  name   = "developer-rds-policy"
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid":"RDSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "rds-db:connect"
+      ],
+      "Resource":[
+        "arn:aws:rds-db::${local.account_id}:dbuser:*/iam_developer"
+      ]
+    },
+    {
+      "Sid":"BastionConnect",
+      "Effect":"Allow",
+      "Action":[
+        "ssm:StartSession",
+        "ssm:SendCommand"
+      ],
+      "Resource":[
+        "arn:aws:ec2::${local.account_id}:instance/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetConnectionStatus",
+        "ssm:DescribeInstanceInformation"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:TerminateSession"
+      ],
+      "Resource": [
+        "arn:aws:ssm::${local.account_id}:session/*"
+      ]
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "developer_rds" {
+  count = var.type != "master" ? 1 : 0
+  role = aws_iam_role.developer[0].name
+  policy_arn = aws_iam_policy.developer_rds[0].arn
+}

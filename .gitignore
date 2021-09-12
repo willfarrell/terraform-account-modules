@@ -12,4 +12,7 @@
 .idea
 *.iml
 
+# OS
+.DS_Store
+
 

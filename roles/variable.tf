@@ -8,7 +8,7 @@ variable "master_account_id" {
 }
 
 variable "sub_accounts" {
-  type = "map"
+  type = map(string)
 
   default = {
     production  = ""

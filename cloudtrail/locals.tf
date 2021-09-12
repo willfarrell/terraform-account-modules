@@ -6,6 +6,7 @@ module "defaults" {
 
 locals {
   account_id = module.defaults.account_id
+  region     = module.defaults.region
   name       = "${module.defaults.name}-cloudtrail"
   tags       = module.defaults.tags
 
