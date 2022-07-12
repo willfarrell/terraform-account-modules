@@ -11,11 +11,9 @@ output "ecr_arns" {
 }
 
 output "developer_role_name" {
-  count = var.type != "master" ? 1 : 0
-  value = aws_iam_role.developer[0].name
+  value = var.type != "master" ? aws_iam_role.developer[0].name : null
 }
 
 output "admin_role_name" {
-  count = var.type != "master" ? 1 : 0
-  value = aws_iam_role.administrator[0].name
+  value = var.type != "master" ? aws_iam_role.administrator[0].name : null
 }
