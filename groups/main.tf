@@ -28,25 +28,20 @@ resource "aws_iam_policy" "groups" {
   count = length(local.groups)
   name  = "${local.groups[count.index]}-policy"
 
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "sts:AssumeRole"
-      ],
-      "Resource": [
-        "arn:aws:iam::${var.sub_accounts[element(split("-", local.groups[count.index]), 0)]}:role/${element(split("-", local.groups[count.index]), 1)}"
-      ]
-    }
-  ]
-}
-POLICY
+  policy = data.aws_iam_policy_document.groups[count.index].json
 
 }
-
+data "aws_iam_policy_document" "groups" {
+  count = length(local.groups)
+  statement {
+    sid    = "AllowAssumeRole"
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = ["arn:aws:iam::${var.sub_accounts[element(split("-", local.groups[count.index]), 0)]}:role/${element(split("-", local.groups[count.index]), 1)}"]
+  }
+}
 /*
 "Condition": {
   "Bool": {
@@ -95,94 +90,76 @@ resource "aws_iam_group" "user" {
 
 resource "aws_iam_policy" "user" {
   name = "UserAccess"
-
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-          "Sid": "AllowPasswordPolicy",
-          "Effect": "Allow",
-          "Action": "iam:GetAccountPasswordPolicy",
-          "Resource": ["*"]
-      },
-      {
-            "Sid": "AllowUsersAllActionsForCredentials",
-            "Effect": "Allow",
-            "Action": [
-                "iam:ChangePassword",
-                "iam:ListAttachedUserPolicies",
-                "iam:GenerateServiceLastAccessedDetails",
-                "iam:*LoginProfile",
-                "iam:*AccessKey*",
-                "iam:*SigningCertificate*",
-                "iam:*SSHPublicKey*"
-            ],
-            "Resource": [
-                "arn:aws:iam::${local.account_id}:user/$${aws:username}"
-            ]
-        },
-        {
-            "Sid": "AllowUsersToSeeStatsOnIAMConsoleDashboard",
-            "Effect": "Allow",
-            "Action": [
-                "iam:GetAccount*",
-                "iam:ListAccount*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Sid": "AllowUsersToListUsersInConsole",
-            "Effect": "Allow",
-            "Action": [
-                "iam:ListUsers"
-            ],
-            "Resource": [
-                "arn:aws:iam::${local.account_id}:user/*"
-            ]
-        },
-        {
-            "Sid": "AllowUsersToListOwnGroupsInConsole",
-            "Effect": "Allow",
-            "Action": [
-                "iam:ListGroupsForUser"
-            ],
-            "Resource": [
-                "arn:aws:iam::${local.account_id}:user/$${aws:username}"
-            ]
-        },
-        {
-            "Sid": "AllowUsersToCreateTheirOwnVirtualMFADevice",
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateVirtualMFADevice",
-                "iam:EnableMFADevice",
-                "iam:ResyncMFADevice",
-                "iam:DeleteVirtualMFADevice"
-            ],
-            "Resource": [
-                "arn:aws:iam::${local.account_id}:mfa/$${aws:username}",
-                "arn:aws:iam::${local.account_id}:user/$${aws:username}"
-            ]
-        },
-        {
-            "Sid": "AllowUsersToListVirtualMFADevices",
-            "Effect": "Allow",
-            "Action": [
-                "iam:ListMFADevices",
-                "iam:ListVirtualMFADevices"
-            ],
-            "Resource": [
-                "arn:aws:iam::${local.account_id}:*"
-            ]
-        }
+  policy = data.aws_iam_policy_document.user.json
+}
+data "aws_iam_policy_document" "user" {
+  statement {
+    sid    = "AllowPasswordPolicy"
+    effect = "Allow"
+    actions = [
+      "iam:GetAccountPasswordPolicy"
     ]
+    resources = ["*"]
+  }
+  statement {
+    sid    = "AllowUsersAllActionsForCredentials"
+    effect = "Allow"
+    actions = [
+      "iam:ChangePassword",
+      "iam:ListAttachedUserPolicies",
+      "iam:GenerateServiceLastAccessedDetails",
+      "iam:*LoginProfile",
+      "iam:*AccessKey*",
+      "iam:*SigningCertificate*",
+      "iam:*SSHPublicKey*"
+    ]
+    resources = ["arn:aws:iam::${local.account_id}:user/$${aws:username}"]
+  }
+  statement {
+    sid    = "AllowUsersToSeeStatsOnIAMConsoleDashboard"
+    effect = "Allow"
+    actions = [
+      "iam:GetAccount*",
+      "iam:ListAccount*"#wrong?
+    ]
+    resources = ["*"]
+  }
+  statement {
+    sid    = "AllowUsersToListUsersInConsole"
+    effect = "Allow"
+    actions = [
+      "iam:ListUsers"
+    ]
+    resources = ["arn:aws:iam::${local.account_id}:user/*"]
+  }
+  statement {
+    sid    = "AllowUsersToListOwnGroupsInConsole"
+    effect = "Allow"
+    actions = ["iam:ListGroupsForUser"
+    ]
+    resources = ["arn:aws:iam::${local.account_id}:user/$${aws:username}"]
+  }
+  statement {
+    sid    = "AllowUsersToCreateTheirOwnVirtualMFADevice"
+    effect = "Allow"
+    actions = ["iam:CreateVirtualMFADevice",
+      "iam:EnableMFADevice",
+      "iam:ResyncMFADevice",
+      "iam:DeleteVirtualMFADevice"
+    ]
+    resources = ["arn:aws:iam::${local.account_id}:mfa/*",
+      "arn:aws:iam::${local.account_id}:user/$${aws:username}"]
+  }
+  statement {
+    sid    = "AllowUsersToListVirtualMFADevices"
+    effect = "Allow"
+    actions = ["iam:ListMFADevices",
+      "iam:ListVirtualMFADevices"
+    ]
+    resources = ["arn:aws:iam::${local.account_id}:*"]
+  }
 }
-POLICY
 
-}
 
 resource "aws_iam_group_policy_attachment" "user" {
 group      = aws_iam_group.user.name
