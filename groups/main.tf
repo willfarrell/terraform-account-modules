@@ -107,6 +107,7 @@ data "aws_iam_policy_document" "user" {
     actions = [
       "iam:ChangePassword",
       "iam:ListAttachedUserPolicies",
+      "iam:ListServiceSpecificCredentials",
       "iam:GenerateServiceLastAccessedDetails",
       "iam:*LoginProfile",
       "iam:*AccessKey*",
@@ -130,7 +131,7 @@ data "aws_iam_policy_document" "user" {
     actions = [
       "iam:ListUsers"
     ]
-    resources = ["arn:aws:iam::${local.account_id}:user/*"]
+    resources = ["arn:aws:iam::${local.account_id}:user/$${aws:username}"]
   }
   statement {
     sid    = "AllowUsersToListOwnGroupsInConsole"
