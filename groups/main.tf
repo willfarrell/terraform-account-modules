@@ -146,7 +146,8 @@ data "aws_iam_policy_document" "user" {
     actions = ["iam:CreateVirtualMFADevice",
       "iam:EnableMFADevice",
       "iam:ResyncMFADevice",
-      "iam:DeleteVirtualMFADevice"
+      "iam:DeleteVirtualMFADevice",
+      "iam:DeactivateMFADevice"
     ]
     resources = ["arn:aws:iam::${local.account_id}:mfa/*",
       "arn:aws:iam::${local.account_id}:user/$${aws:username}"]
