@@ -143,7 +143,8 @@ data "aws_iam_policy_document" "user" {
   statement {
     sid    = "AllowUsersToCreateTheirOwnVirtualMFADevice"
     effect = "Allow"
-    actions = ["iam:CreateVirtualMFADevice",
+    actions = [
+    "iam:GetMFADevice","iam:CreateVirtualMFADevice",
       "iam:EnableMFADevice",
       "iam:ResyncMFADevice",
       "iam:DeleteVirtualMFADevice",
