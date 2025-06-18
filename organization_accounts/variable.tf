@@ -10,11 +10,11 @@ variable "default_tags" {
 
 variable "account_email" {
   description = "Organization account email. admin@example.com"
-  type = "string"
+  type = string
 }
 
 variable "parent_id" {
-  type = "string"
+  type = string
 }
 
 variable "sub_accounts" {
