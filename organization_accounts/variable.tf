@@ -1,3 +1,9 @@
+variable "name" {
+  description = "Organization group name"
+  type = string
+  default = "environments"
+}
+
 variable "type" {
   type    = string
   default = "master"

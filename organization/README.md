@@ -30,5 +30,9 @@ master
 - https://www.datadoghq.com/blog/engineering/secure-aws-account-iam-setup/
 - https://ashwini.tech/2018/terraform-aws-iam-user/
 
+## Errors
+
+https://sophiabits.com/blog/managing-your-aws-organization-in-terraform
+
 ## TODO
 - [ ] Group and policy for terraform users (non-admins)

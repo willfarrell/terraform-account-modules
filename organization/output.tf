@@ -1,3 +1,3 @@
-output "organization_unit_id" {
-  value = aws_organizations_organizational_unit.environments.id
+output "organization_id" {
+  value = aws_organizations_organization.main.roots.0.id
 }
