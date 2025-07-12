@@ -22,5 +22,5 @@ output "arn" {
   value = aws_cloudtrail.default.arn
 }
 
-// TODO add in Insights
-// https://github.com/terraform-providers/terraform-provider-aws/issues/10988
+# TODO add in Insights
+# https://github.com/terraform-providers/terraform-provider-aws/issues/10988
